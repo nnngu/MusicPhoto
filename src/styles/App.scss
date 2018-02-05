@@ -32,7 +32,8 @@ html, body {
   position: relative;
   overflow: hidden;
   width: 100%;
-  height: 680px;
+  height: 100%;
+  //height: 680px;
   perspective: 1800px;
   background-color: #ddd;
 
@@ -99,7 +100,7 @@ html, body {
 .controller-nav {
   position: absolute;
   left: 0;
-  bottom: 30px;
+  bottom: 250px;
   z-index: 101;
   width: 100%;
   text-align: center;
@@ -146,3 +147,14 @@ html, body {
   }
 }
 /* controller -- end */
+
+/* source area -- start */
+.source-area {
+  position: absolute;
+  left: 0;
+  bottom: 5px;
+  z-index: 101;
+  width: 100%;
+  text-align: center;
+}
+/* source area -- end */

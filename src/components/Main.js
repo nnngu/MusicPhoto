@@ -4,7 +4,7 @@ require('styles/App.scss');
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-//get the json data of images
+// 获取图片的 json 数据
 var imagesData = require('../data/imageDatas.json');
 
 /**
@@ -23,6 +23,7 @@ imagesData = (function getImageURL(imagesDataArray) {
 })(imagesData);
 
 /**
+ * 获取指定范围内的随机值
  * @param  {min}
  * @param  {max}
  * @return {random between min and max}
@@ -31,12 +32,16 @@ function getRangeRandom(low, high) {
   return Math.floor(Math.random() * (high - low) + low);
 }
 /**
+ * 获取 0到30 之间的随机旋转度数
  * @return {random degree between 0 and 30}
  */
 function get30DegRandom() {
   return ((Math.random() > 0.5 ? '' : '-') + Math.floor(Math.random() * 30));
 }
 
+/**
+ * 相框组件
+ */
 class ImgFigure extends React.Component {
 
   constructor(props) {
@@ -96,7 +101,7 @@ class ImgFigure extends React.Component {
   }
 }
 /**
- * controller unit
+ * 导航控制条组件
  */
 class ControllerUnit extends React.Component {
   constructor(props) {
@@ -128,20 +133,23 @@ class ControllerUnit extends React.Component {
   }
 }
 
+/**
+ * 总组件
+ */
 class AppComponent extends React.Component {
   constructor(props) {
     super(props);
     this.Constant = {
-      centerPos: { //center
+      centerPos: { // 中心位置
         left: 0,
         top: 0
       },
-      hPosRange: { //left and right sec position
+      hPosRange: { // 水平方向
         leftSecX: [0, 0],
         rightSecX: [0, 0],
         y: [0, 0]
       },
-      vPosRange: { //up sec position
+      vPosRange: { // 垂直方向
         x: [0, 0],
         topY: [0, 0]
       }
@@ -161,6 +169,7 @@ class AppComponent extends React.Component {
     };
   }
   /**
+   * 反转图片，参数为图片的索引
    * @param  {index of pic to be rotated}
    * @return {a closure function, return a function}
    */
@@ -176,7 +185,7 @@ class AppComponent extends React.Component {
     }.bind(this);
   }
   /**
-   * rearrange all the pictures
+   * 重新排列所有的图片
    * @param  {the index of pic to be centered}
    * @return {[type]}
    */
@@ -194,24 +203,24 @@ class AppComponent extends React.Component {
 
       imgArrangeTopArr = [],
       topImgNum = Math.floor(Math.random() * 2), // there would be 0 or 1 pics in top sec
-      topImgSpliceIndex = 0, //the index of pic at top sec
+      topImgSpliceIndex = 0, // the index of pic at top sec
 
-      imgArrangeCenterArr = imgArrangeArr.splice(centerIndex, 1); //get the center pic
+      imgArrangeCenterArr = imgArrangeArr.splice(centerIndex, 1); // get the center pic
 
-    //get the info of pics in up sec
+    // get the info of pics in up sec
     topImgSpliceIndex = Math.floor(Math.random() * (imgArrangeArr.length - topImgNum));
     imgArrangeTopArr = imgArrangeArr.splice(topImgSpliceIndex, topImgNum);
 
 
-    /*----position part----*/
-    // let pic in the center
+    /*---- position part ----*/
+    // 让图片居中
     imgArrangeCenterArr[0] = {
       pos: centerPos,
       rotate: 0,
       isCenter: true
     }
 
-    //let pics in the up sec positioned
+    // 让图片在最上层
     imgArrangeTopArr.forEach(function(value, index) {
       imgArrangeTopArr[index] = {
         pos: {
@@ -228,8 +237,8 @@ class AppComponent extends React.Component {
     for (var i = 0, j = imgArrangeArr.length, k = j / 2; i < j; i++) {
       let hPosRangeLORX = null;
 
-      //first half pics at left
-      //rest pics at right
+      // first half pics at left
+      // rest pics at right
       if (i < k) {
         hPosRangeLORX = hPosRangeLeftSecX;
       } else {
@@ -271,24 +280,24 @@ class AppComponent extends React.Component {
    * calculate their position range
    */
   componentDidMount() {
-    //get the size of stage
+    // get the size of stage
     let stageDOM = ReactDOM.findDOMNode(this.refs.stage),
       stageW = stageDOM.scrollWidth,
       stageH = stageDOM.scrollHeight,
       halfStageW = Math.ceil(stageW / 2),
       halfStageH = Math.ceil(stageH / 2);
-    //get the size of one photo
+    // get the size of one photo
     let imgFigureDOM = ReactDOM.findDOMNode(this.refs.imgFigure0),
       imgW = imgFigureDOM.scrollWidth,
       imgH = imgFigureDOM.scrollHeight,
       halfImgW = Math.ceil(imgW / 2),
       halfImgH = Math.ceil(imgH / 2);
-    //calculate the position for the central photo
+    // 计算中心图片的位置
     this.Constant.centerPos = {
       left: halfStageW - halfImgW,
-      top: halfStageH - halfImgH
+      top: halfStageH - halfImgH - 140
     }
-    //calculate the range of posiztion for the left and right sec
+    // calculate the range of posiztion for the left and right sec
     this.Constant.hPosRange.leftSecX[0] = -halfImgW;
     this.Constant.hPosRange.leftSecX[1] = halfStageW - halfImgW * 3;
 
@@ -297,13 +306,13 @@ class AppComponent extends React.Component {
 
     this.Constant.hPosRange.y[0] = -halfImgH;
     this.Constant.hPosRange.y[1] = stageH - halfImgH;
-    //calculate the range of position for up sec
+    // calculate the range of position for up sec
     this.Constant.vPosRange.x[0] = halfStageW - imgW;
     this.Constant.vPosRange.x[1] = halfStageW;
 
     this.Constant.vPosRange.topY[0] = 0 - halfImgH;
     this.Constant.vPosRange.topY[1] = halfStageH - halfImgH * 3;
-    //let the first pic at center
+    // let the first pic at center
     this.rearrange(0);
   }
 
@@ -334,9 +343,14 @@ class AppComponent extends React.Component {
         <section className="img-sec">
           {imgFigures}
         </section>
+
         <nav className="controller-nav">
           {controllerUnits}
         </nav>
+
+        <div className="source-area">
+          源代码：<a href="https://github.com/nnngu/MusicPhoto" target="_blank">https://github.com/nnngu/MusicPhoto</a>
+        </div>
       </section>
     );
   }
