@@ -305,7 +305,7 @@ class AppComponent extends React.Component {
     this.Constant.hPosRange.rightSecX[1] = stageW - halfImgW;
 
     this.Constant.hPosRange.y[0] = -halfImgH;
-    this.Constant.hPosRange.y[1] = stageH - halfImgH;
+    this.Constant.hPosRange.y[1] = stageH - halfImgH * 3;
     // calculate the range of position for up sec
     this.Constant.vPosRange.x[0] = halfStageW - imgW;
     this.Constant.vPosRange.x[1] = halfStageW;
