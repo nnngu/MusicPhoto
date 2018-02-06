@@ -1,0 +1,97 @@
+.playerPage {
+  width: 700px;
+  margin: auto;
+  margin-top: 120px;
+
+  h1 {
+    font-size: 16px;
+    color: rgb(47, 152, 66);
+  }
+}
+
+.musicTitle {
+  font-size: 25px;
+  font-weight: 400;
+  color: rgb(3, 3, 3);
+  height: 36px;
+  line-height: 36px;
+}
+.musicArtist {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgb(74, 74, 74);
+}
+.leftTime {
+  font-size: 14px;
+  color: #999;
+  font-weight: 400;
+  width: 50px;
+}
+.icon {
+  cursor: pointer;
+}
+.ml20 {
+  margin-left: 20px;
+}
+.ml35 {
+  margin-left: 35px;
+}
+.mt35 {
+  margin-top: 35px;
+}
+.volumeWrapper {
+  width: 60px;
+  display: inline-block;
+}
+
+.cover {
+  width: 180px;
+  height: 180px;
+  margin-left: 20px;
+
+  img {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    animation: roate 20s infinite linear; // 旋转专辑封面
+    border:2px solid #808080;
+  }
+}
+
+.volumeContainer {
+  position: relative;
+  left: 20px;
+  top: -3px;
+
+  div {
+    opacity: 0;
+    transition: opacity .5s linear;
+  }
+}
+
+.volumeContainer:hover div {
+  opacity: 1;
+}
+
+
+.playerWrapper {
+  position: relative;
+  padding-top: 56.25% /* Player ratio: 100 / (1280 / 720) */
+}
+
+.reactPlayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+@keyframes roate {
+  0% {
+    transform: rotateZ(0)
+  }
+  100% {
+    transform: rotateZ(360deg)
+  }
+}
+
+
