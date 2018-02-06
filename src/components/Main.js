@@ -10,6 +10,7 @@ import ControllerUnit from './photo/ControllerUnit';
 
 // 导入音乐相关的组件
 import Progress from './music/progress';
+// import Player from './music/player' // 新播放器
 
 // 获取图片的 json 数据
 var imagesData = require('../data/imageDatas.json');
@@ -279,8 +280,20 @@ class AppComponent extends React.Component {
         <div className="player_bar">
           <Progress
             progress={this.state.progress}
+            // barColor="#ff0000"
           />
         </div>
+
+        {/* 新播放器 */}
+        {/*<div id="player">*/}
+          {/*<Player/>*/}
+        {/*</div>*/}
+        {/*<div className="player_bar">*/}
+          {/*<Player*/}
+            {/*progress={this.state.progress}*/}
+            {/*// barColor="#ff0000"*/}
+          {/*/>*/}
+        {/*</div>*/}
       </section>
     );
   }

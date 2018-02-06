@@ -10,7 +10,17 @@ let Progress = React.createClass({
    */
   getInitialState() {
     return {
-      progress: '-'
+      // progress: '-'
+    }
+  },
+
+  /**
+   * 设置默认的props值
+   * @returns {{barColor: string}}
+   */
+  getDefaultProps() {
+    return {
+      barColor: '#2f9842'
     }
   },
 
@@ -59,7 +69,8 @@ let Progress = React.createClass({
   render() {
     return (
       <div className="components_progress" ref="progressBar" onClick={this.changeProgress} >
-        <div className="progress" style={{width: `${this.state.progress}%`}} ></div>
+        <div className="progress" style={{width: `${this.state.progress}%`, backgroundColor: this.props.barColor}} ></div>
+
         {/*{ this.state.progress }s*/}
       </div>
     );

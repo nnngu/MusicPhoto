@@ -9,15 +9,18 @@
 
 // 进度条
 .components_progress {
+  display: inline-block;
   width: 100%; // 让外层容器控制它的宽度
-  height: 5px;
+  height: 3px;
+  position: relative;
   background-color: #aaa;
   cursor: pointer;
 
   // 当前进度
   .progress {
     width: 0%;
-    height: 5px;
-    background-color: #2f9842;
+    height: 3px;
+    left: 0;
+    top: 0;
   }
 }
