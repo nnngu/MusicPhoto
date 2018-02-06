@@ -3,6 +3,9 @@ require('styles/App.scss');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
+// 导入自己创建的组件
+import ImgFigure from './photo/ImgFigure';
+import ControllerUnit from './photo/ControllerUnit';
 
 // 获取图片的 json 数据
 var imagesData = require('../data/imageDatas.json');
@@ -31,6 +34,7 @@ imagesData = (function getImageURL(imagesDataArray) {
 function getRangeRandom(low, high) {
   return Math.floor(Math.random() * (high - low) + low);
 }
+
 /**
  * 获取 0到30 之间的随机旋转度数
  * @return {random degree between 0 and 30}
@@ -40,103 +44,13 @@ function get30DegRandom() {
 }
 
 /**
- * 相框组件
- */
-class ImgFigure extends React.Component {
-
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  handleClick(e) {
-
-    if (this.props.arrange.isCenter) {
-      this.props.inverse();
-    } else {
-      this.props.center();
-    }
-
-
-    e.stopPropagation();
-    e.preventDefault();
-  }
-
-  render() {
-    var styleObj = {};
-
-    //if props assigns the position of pic, use it
-    if (this.props.arrange.pos) {
-      styleObj = this.props.arrange.pos;
-    }
-    //if props assigns the rotation degree of pic, use it
-    if (this.props.arrange.rotate) {
-      (['MozTransform', 'msTransform', 'WebkitTransform', 'transform']).forEach(function(value) {
-        styleObj[value] = 'rotate(' + this.props.arrange.rotate + 'deg)';
-      }.bind(this));
-    }
-
-    if (this.props.arrange.isCenter) {
-      styleObj.zIndex = 11;
-    }
-
-    var imgFigureClassName = 'img-figure';
-    imgFigureClassName += this.props.arrange.isInverse ? ' is-inverse' : '';
-
-    return (
-      <figure className={imgFigureClassName} style={styleObj} onClick={this.handleClick}>
-        <img src={this.props.data.imageURL}
-             alt={this.props.data.title}
-        />
-        <figcaption>
-          <h2 className="img-title">{this.props.data.title}</h2>
-          <div className="img-back" onClick={this.handleClick}>
-            <p>
-              {this.props.data.desc}
-            </p>
-          </div>
-        </figcaption>
-      </figure>
-    );
-  }
-}
-/**
- * 导航控制条组件
- */
-class ControllerUnit extends React.Component {
-  constructor(props) {
-    super(props);
-    this.handleClick = this.handleClick.bind(this);
-  }
-  handleClick(e) {
-
-    if (this.props.arrange.isCenter) {
-      this.props.inverse();
-    } else {
-      this.props.center();
-    }
-
-    e.stopPropagation();
-    e.preventDefault();
-  }
-  render() {
-    var controllerUnitClassName = 'controller-unit'
-    if (this.props.arrange.isCenter) {
-      controllerUnitClassName += ' is-center';
-      if (this.props.arrange.isInverse) {
-        controllerUnitClassName += ' is-inverse';
-      }
-    }
-    return (
-      <span className={controllerUnitClassName} onClick={this.handleClick}></span>
-    );
-  }
-}
-
-/**
  * 总组件
  */
 class AppComponent extends React.Component {
+  /**
+   * 构造方法
+   * @param props
+   */
   constructor(props) {
     super(props);
     this.Constant = {
@@ -168,13 +82,14 @@ class AppComponent extends React.Component {
       ]
     };
   }
+
   /**
    * 反转图片，参数为图片的索引
    * @param  {index of pic to be rotated}
    * @return {a closure function, return a function}
    */
   inverse(index) {
-    return function() {
+    return function () {
       var imgArrangeArr = this.state.imgArrangeArr;
 
       imgArrangeArr[index].isInverse = !imgArrangeArr[index].isInverse;
@@ -184,6 +99,7 @@ class AppComponent extends React.Component {
       });
     }.bind(this);
   }
+
   /**
    * 重新排列所有的图片
    * @param  {the index of pic to be centered}
@@ -211,7 +127,6 @@ class AppComponent extends React.Component {
     topImgSpliceIndex = Math.floor(Math.random() * (imgArrangeArr.length - topImgNum));
     imgArrangeTopArr = imgArrangeArr.splice(topImgSpliceIndex, topImgNum);
 
-
     /*---- position part ----*/
     // 让图片居中
     imgArrangeCenterArr[0] = {
@@ -221,7 +136,7 @@ class AppComponent extends React.Component {
     }
 
     // 让图片在最上层
-    imgArrangeTopArr.forEach(function(value, index) {
+    imgArrangeTopArr.forEach(function (value, index) {
       imgArrangeTopArr[index] = {
         pos: {
           top: getRangeRandom(vPosRangeTopY[0], vPosRangeTopY[1]),
@@ -265,19 +180,21 @@ class AppComponent extends React.Component {
       imgArrangeArr: imgArrangeArr
     })
   }
+
   /**
    * use rearrange() to center pic
    * @param  {index of pic to be centered}
    * @return {function}
    */
   center(index) {
-    return function() {
+    return function () {
       this.rearrange(index);
     }.bind(this);
   }
+
   /**
-   * while component did mount
-   * calculate their position range
+   * 生命周期：componentDidMount
+   * 计算它们的位置范围
    */
   componentDidMount() {
     // get the size of stage
@@ -316,13 +233,16 @@ class AppComponent extends React.Component {
     this.rearrange(0);
   }
 
-
+  /**
+   * render 方法
+   * @returns {*}
+   */
   render() {
     /* declare 2 units*/
     var controllerUnits = [],
       imgFigures = [];
 
-    Array.prototype.forEach.call(imagesData, function(value, index) {
+    Array.prototype.forEach.call(imagesData, function (value, index) {
       if (!this.state.imgArrangeArr[index]) {
         this.state.imgArrangeArr[index] = {
           pos: {
@@ -334,8 +254,11 @@ class AppComponent extends React.Component {
           isCenter: false
         }
       }
-      imgFigures.push(<ImgFigure data={value} key={index} ref={'imgFigure' + index} arrange={this.state.imgArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)}/>);
-      controllerUnits.push(<ControllerUnit key={index} arrange={this.state.imgArrangeArr[index]} inverse={this.inverse(index)} center={this.center(index)}/>);
+      imgFigures.push(<ImgFigure data={value} key={index} ref={'imgFigure' + index}
+                                 arrange={this.state.imgArrangeArr[index]} inverse={this.inverse(index)}
+                                 center={this.center(index)}/>);
+      controllerUnits.push(<ControllerUnit key={index} arrange={this.state.imgArrangeArr[index]}
+                                           inverse={this.inverse(index)} center={this.center(index)}/>);
     }.bind(this));
 
     return (
