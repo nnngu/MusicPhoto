@@ -1,0 +1,23 @@
+.player_bar {
+  position: absolute;
+  left: 0;
+  bottom: 50px;
+  z-index: 101;
+  width: 100%;
+  text-align: center;
+}
+
+// 进度条
+.components_progress {
+  width: 100%; // 让外层容器控制它的宽度
+  height: 3px;
+  background-color: #aaa;
+  cursor: pointer;
+
+  // 当前进度
+  .progress {
+    width: 0%;
+    height: 3px;
+    background-color: #2f9842;
+  }
+}

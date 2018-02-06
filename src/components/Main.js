@@ -3,9 +3,13 @@ require('styles/App.scss');
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-// 导入自己创建的组件
+
+// 导入相册相关的组件
 import ImgFigure from './photo/ImgFigure';
 import ControllerUnit from './photo/ControllerUnit';
+
+// 导入音乐相关的组件
+import Progress from './music/progress';
 
 // 获取图片的 json 数据
 var imagesData = require('../data/imageDatas.json');
@@ -70,15 +74,7 @@ class AppComponent extends React.Component {
     };
     this.state = {
       imgArrangeArr: [
-        // {
-        // 	pos: {
-        // 		left: '0',
-        // 		top: '0'
-        // 	}
-        //  rotate: 0,
-        // 	isInverse: false,
-        //	isCenter: false ;
-        // }
+
       ]
     };
   }
@@ -203,7 +199,7 @@ class AppComponent extends React.Component {
       stageH = stageDOM.scrollHeight,
       halfStageW = Math.ceil(stageW / 2),
       halfStageH = Math.ceil(stageH / 2);
-    // get the size of one photo
+    // get the size of one music
     let imgFigureDOM = ReactDOM.findDOMNode(this.refs.imgFigure0),
       imgW = imgFigureDOM.scrollWidth,
       imgH = imgFigureDOM.scrollHeight,
@@ -263,16 +259,27 @@ class AppComponent extends React.Component {
 
     return (
       <section className="stage" ref="stage">
+        {/* 相册相关的组件 */}
         <section className="img-sec">
           {imgFigures}
         </section>
-
         <nav className="controller-nav">
           {controllerUnits}
         </nav>
 
+        {/* 源代码组件 */}
         <div className="source-area">
           源代码：<a href="https://github.com/nnngu/MusicPhoto" target="_blank">https://github.com/nnngu/MusicPhoto</a>
+        </div>
+
+        {/* 音乐相关的组件 */}
+        <div id="player">
+          <Progress/>
+        </div>
+        <div className="player_bar">
+          <Progress
+            progress={this.state.progress}
+          />
         </div>
       </section>
     );
