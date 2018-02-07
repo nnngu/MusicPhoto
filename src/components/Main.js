@@ -8,12 +8,11 @@ import ReactDOM from 'react-dom';
 import ImgFigure from './photo/ImgFigure';
 import ControllerUnit from './photo/ControllerUnit';
 
-// 导入音乐相关的组件
-import Progress from './music/progress';
-// import Player from './music/player' // 新播放器
-
 // 获取图片的 json 数据
 var imagesData = require('../data/imageDatas.json');
+
+// 导入音乐相关的组件
+import Progress from './music/progress';
 
 /**
  * @imagesDataArray  {Array}
@@ -274,9 +273,6 @@ class AppComponent extends React.Component {
         </div>
 
         {/* 音乐相关的组件 */}
-        <div id="player">
-          <Progress/>
-        </div>
         <div className="player_bar">
           <Progress
             progress={this.state.progress}
@@ -284,16 +280,7 @@ class AppComponent extends React.Component {
           />
         </div>
 
-        {/* 新播放器 */}
-        {/*<div id="player">*/}
-          {/*<Player/>*/}
-        {/*</div>*/}
-        {/*<div className="player_bar">*/}
-          {/*<Player*/}
-            {/*progress={this.state.progress}*/}
-            {/*// barColor="#ff0000"*/}
-          {/*/>*/}
-        {/*</div>*/}
+
       </section>
     );
   }
