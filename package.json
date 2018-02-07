@@ -20,7 +20,12 @@
   },
   "repository": "",
   "keywords": [],
-  "author": "Your name here",
+  "author": "nnngu",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/nnngu/MusicPhoto"
+  },
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
     "babel-core": "^6.0.0",
@@ -67,6 +72,8 @@
   },
   "dependencies": {
     "core-js": "^2.0.0",
+    "less": "^2.7.3",
+    "less-loader": "^4.0.5",
     "normalize.css": "^4.0.0",
     "pubsub-js": "^1.6.0",
     "react": "^15.0.0",

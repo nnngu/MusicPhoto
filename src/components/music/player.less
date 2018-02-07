@@ -1,0 +1,94 @@
+.player-page {
+	width: 550px;
+  height: 210px;
+	//margin: auto;
+	//margin-top: 0px;
+
+  position: absolute;
+  left: 50%;
+  transform: translate(-50%, 0);
+  bottom: 20px;
+  z-index: 101;
+  //width: 100%;
+
+	//.caption {
+	//	font-size: 16px;
+	//	color: rgb(47, 152, 66);
+	//}
+
+	.cover {
+		width: 180px;
+		height: 180px;
+		margin-left: 20px;
+
+		img {
+			width: 180px;
+			height: 180px;
+			border-radius: 50%;
+			animation: roate 20s infinite linear; // 旋转专辑封面
+			border:2px solid #808080b8;
+		}
+	}
+
+	.volume-container {
+		position: relative;
+		left: 20px;
+		top: -3px;
+	}
+
+	.volume-container .volume-wrapper {
+		opacity: 0;
+		transition: opacity .5s linear;
+	}
+
+	.volume-container:hover .volume-wrapper {
+		opacity: 1;
+	}
+
+	.music-title {
+	    font-size: 25px;
+	    font-weight: 400;
+	    color: rgb(3, 3, 3);
+	    height: 6px;
+	    line-height: 6px;
+	}
+
+	.music-artist {
+		font-size: 15px;
+	    font-weight: 400;
+	    color: rgb(74, 74, 74);
+    }
+
+    .left-time {
+    	font-size: 14px;
+    	color: #999;
+    	font-weight: 400;
+    	width: 40px;
+    }
+
+    .icon {
+    	cursor: pointer;
+    }
+
+    .ml20 {
+    	margin-left: 20px;
+    }
+
+    .mt35 {
+    	margin-top: 35px;
+    }
+
+    .volume-wrapper {
+    	width: 60px;
+    	display: inline-block;
+    }
+}
+
+@keyframes roate {
+	0% {
+		transform: rotateZ(0)
+	}
+	100% {
+		transform: rotateZ(360deg)
+	}
+}

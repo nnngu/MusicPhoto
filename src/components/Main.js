@@ -12,7 +12,16 @@ import ControllerUnit from './photo/ControllerUnit';
 var imagesData = require('../data/imageDatas.json');
 
 // 导入音乐相关的组件
-import Progress from './music/progress';
+import Player from './music/player';
+
+// 歌名、歌手、播放URL等数据
+import {MUSIC_LIST} from '../data/musicDatas';
+
+import {randomRange} from './utils/util';
+
+require('../styles/common.css');
+
+let PubSub = require('pubsub-js');
 
 /**
  * @imagesDataArray  {Array}
@@ -73,10 +82,22 @@ class AppComponent extends React.Component {
       }
     };
     this.state = {
-      imgArrangeArr: [
-
-      ]
+      imgArrangeArr: []
     };
+
+
+    // 这里不能用 return
+    // return {
+    //   musicList: MUSIC_LIST,
+    //   currentMusitItem: {},
+    //   repeatType: 'cycle',
+    //
+    //   progress: 0,
+    //   volume: 0,
+    //   isPlay: true,
+    //   leftTime: ''
+    // }
+
   }
 
   /**
@@ -227,7 +248,125 @@ class AppComponent extends React.Component {
     this.Constant.vPosRange.topY[1] = halfStageH - halfImgH * 3;
     // let the first pic at center
     this.rearrange(0);
+
+    /** 播放音乐相关的 start */
+
+    $('#player').jPlayer({
+      supplied: 'mp3',
+      wmode: 'window',
+      useStateClassSkin: true
+    });
+
+    this.playMusic(MUSIC_LIST[0]);
+
+    $('#player').bind($.jPlayer.event.ended, (e) => {
+      this.playWhenEnd();
+    });
+    PubSub.subscribe('PLAY_MUSIC', (msg, item) => {
+      this.playMusic(item);
+    });
+    PubSub.subscribe('DEL_MUSIC', (msg, item) => {
+      this.setState({
+        musicList: this.state.musicList.filter((music) => {
+          return music !== item;
+        })
+      });
+    });
+    PubSub.subscribe('PLAY_NEXT', () => {
+      this.playNext();
+    });
+    PubSub.subscribe('PLAY_PREV', () => {
+      this.playNext('prev');
+    });
+    let repeatList = [
+      'cycle',
+      'once',
+      'random'
+    ];
+    PubSub.subscribe('CHANAGE_REPEAT', () => {
+      let index = repeatList.indexOf(this.state.repeatType);
+      index = (index + 1) % repeatList.length;
+      this.setState({
+        repeatType: repeatList[index]
+      });
+    });
+
+    /** 播放音乐相关的 end */
+
   }
+
+  componentWillUnmount() {
+    PubSub.unsubscribe('PLAY_MUSIC');
+    PubSub.unsubscribe('DEL_MUSIC');
+    PubSub.unsubscribe('CHANAGE_REPEAT');
+    PubSub.unsubscribe('PLAY_NEXT');
+    PubSub.unsubscribe('PLAY_PREV');
+  }
+
+  componentWillMount() {
+    this.getInitialState();
+  }
+
+  /** 音乐相关的方法 start */
+
+  getInitialState() {
+    return {
+      musicList: MUSIC_LIST,
+      currentMusitItem: MUSIC_LIST[0],
+      repeatType: 'cycle'
+
+      // progress: 0,
+      // volume: 0,
+      // isPlay: true,
+      // leftTime: ''
+    }
+  }
+
+  playWhenEnd() {
+    if (this.state.repeatType === 'random') {
+      let index = this.findMusicIndex(this.state.currentMusitItem);
+      let randomIndex = randomRange(0, this.state.musicList.length - 1);
+      while (randomIndex === index) {
+        randomIndex = randomRange(0, this.state.musicList.length - 1);
+      }
+      this.playMusic(this.state.musicList[randomIndex]);
+    } else if (this.state.repeatType === 'once') {
+      this.playMusic(this.state.currentMusitItem);
+    } else {
+      this.playNext();
+    }
+  }
+
+  playNext(type = 'next') {
+    let index = this.findMusicIndex(this.state.currentMusitItem);
+    if (type === 'next') {
+      index = (index + 1) % this.state.musicList.length;
+    } else {
+      index = (index + this.state.musicList.length - 1) % this.state.musicList.length;
+    }
+    let musicItem = this.state.musicList[index];
+    this.setState({
+      currentMusitItem: musicItem
+    });
+    this.playMusic(musicItem);
+  }
+
+  findMusicIndex(music) {
+    let index = this.state.musicList.indexOf(music);
+    return Math.max(0, index);
+  }
+
+  playMusic(item) {
+    $('#player').jPlayer('setMedia', {
+      mp3: item.file
+    }).jPlayer('play');
+    this.setState({
+      currentMusitItem: item
+    });
+  }
+
+  /** 音乐相关的方法 end */
+
 
   /**
    * render 方法
@@ -267,19 +406,15 @@ class AppComponent extends React.Component {
           {controllerUnits}
         </nav>
 
+        {/* 音乐相关的组件 */}
+        <div>
+          <Player/>
+        </div>
+
         {/* 源代码组件 */}
         <div className="source-area">
           源代码：<a href="https://github.com/nnngu/MusicPhoto" target="_blank">https://github.com/nnngu/MusicPhoto</a>
         </div>
-
-        {/* 音乐相关的组件 */}
-        <div className="player_bar">
-          <Progress
-            progress={this.state.progress}
-            // barColor="#ff0000"
-          />
-        </div>
-
 
       </section>
     );
