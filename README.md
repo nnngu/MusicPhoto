@@ -2,14 +2,18 @@
 
 笔记仓库：[https://github.com/nnngu/LearningNotes](https://github.com/nnngu/LearningNotes)    
 
----
+演示地址：[https://nnngu.github.io/MusicPhoto/](https://nnngu.github.io/MusicPhoto/)
 
-[上一篇文章用爬虫自动下载了一些图片](https://github.com/nnngu/LearningNotes/blob/master/Spider/02%20Python%E7%88%AC%E8%99%AB%E5%AE%9E%E7%8E%B0%E7%99%BE%E5%BA%A6%E5%9B%BE%E7%89%87%E8%87%AA%E5%8A%A8%E4%B8%8B%E8%BD%BD.md)，这一篇就用这些图片做一个音乐相册吧！
+---
 
 ## 快速部署
 
 * `npm install`
 * `npm run start`
+
+---
+
+[上一篇文章用爬虫自动下载了一些图片](https://github.com/nnngu/LearningNotes/blob/master/Spider/02%20Python%E7%88%AC%E8%99%AB%E5%AE%9E%E7%8E%B0%E7%99%BE%E5%BA%A6%E5%9B%BE%E7%89%87%E8%87%AA%E5%8A%A8%E4%B8%8B%E8%BD%BD.md)，这一篇就用这些图片做一个音乐相册吧！
 
 ## 效果预览
 
